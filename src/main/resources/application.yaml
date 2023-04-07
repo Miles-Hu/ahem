@@ -3,7 +3,7 @@ server:
 spring:
   datasource:
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/ABC_Symphonic_Band?useSSL=false&useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://localhost:3306/ahem_measurements?useSSL=false&useUnicode=true&characterEncoding=utf8
     username: root
     password:
   jpa:

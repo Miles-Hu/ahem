@@ -205,7 +205,7 @@ Output Parameters:
     ]
 }
 ```
-Note that the code is an Enum type: 1-success, 0-failed. The following is a fialed example:
+Note that the code is an Enum type: 1-success, 0-failed. The following is a failed example:
 ```
 {
     "code": 0,
