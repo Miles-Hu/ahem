@@ -131,9 +131,9 @@ public class MyOsmReader implements Sink {
      * compute edge weight based on distance and pollutant level
      * @param graph the graph, default edge weight is 1
      * @param id2NodeMap coordinate of nodes in the graph
-     * @return
+     * @return new graph with computed edge weight
      */
     public Map<Long, List<Edge>> computeEdgeWeight(Map<Long, List<Edge>> graph, Map<Long, Node> id2NodeMap) {
-        return null;
+        return graph;
     }
 }
