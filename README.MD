@@ -1,0 +1,215 @@
+1 find the relatively most healthy route
+
+URL: 
+```
+http://127.0.0.1:8082/v1/route?coordinates=-96.7533417,32.9950066,-96.7504163,32.9862204
+```
+
+HTTP Method: Get
+
+Input Parameters:
+```
+coordinates=startPointLongitude,startPointLatitude,endPointLongitude,endPointLatitude
+```
+
+Output Parameters:
+```
+{
+    "code": 1,
+    "message": "success",
+    "data": [
+        {
+            "longitude": -96.75324450000001,
+            "latitude": 32.994696600000005
+        },
+        {
+            "longitude": -96.7531805,
+            "latitude": 32.9946627
+        },
+        {
+            "longitude": -96.7526713,
+            "latitude": 32.994233300000005
+        },
+        {
+            "longitude": -96.7526421,
+            "latitude": 32.9941866
+        },
+        {
+            "longitude": -96.7526352,
+            "latitude": 32.9941444
+        },
+        {
+            "longitude": -96.752638,
+            "latitude": 32.993800300000004
+        },
+        {
+            "longitude": -96.75263890000001,
+            "latitude": 32.993307200000004
+        },
+        {
+            "longitude": -96.75244310000001,
+            "latitude": 32.9933069
+        },
+        {
+            "longitude": -96.75184270000001,
+            "latitude": 32.9933034
+        },
+        {
+            "longitude": -96.7518428,
+            "latitude": 32.993194700000004
+        },
+        {
+            "longitude": -96.7518428,
+            "latitude": 32.9931368
+        },
+        {
+            "longitude": -96.7514974,
+            "latitude": 32.993134500000004
+        },
+        {
+            "longitude": -96.7510776,
+            "latitude": 32.9931302
+        },
+        {
+            "longitude": -96.750951,
+            "latitude": 32.9931294
+        },
+        {
+            "longitude": -96.75095400000001,
+            "latitude": 32.992963
+        },
+        {
+            "longitude": -96.75095400000001,
+            "latitude": 32.9928572
+        },
+        {
+            "longitude": -96.75095400000001,
+            "latitude": 32.992134
+        },
+        {
+            "longitude": -96.75095490000001,
+            "latitude": 32.9920503
+        },
+        {
+            "longitude": -96.750956,
+            "latitude": 32.991944700000005
+        },
+        {
+            "longitude": -96.7509569,
+            "latitude": 32.9918588
+        },
+        {
+            "longitude": -96.750962,
+            "latitude": 32.991385
+        },
+        {
+            "longitude": -96.75096500000001,
+            "latitude": 32.9913047
+        },
+        {
+            "longitude": -96.750968,
+            "latitude": 32.9911888
+        },
+        {
+            "longitude": -96.7509684,
+            "latitude": 32.990769400000005
+        },
+        {
+            "longitude": -96.7509685,
+            "latitude": 32.990713500000005
+        },
+        {
+            "longitude": -96.75096900000001,
+            "latitude": 32.9906494
+        },
+        {
+            "longitude": -96.75096900000001,
+            "latitude": 32.9906148
+        },
+        {
+            "longitude": -96.7509687,
+            "latitude": 32.9902067
+        },
+        {
+            "longitude": -96.7509722,
+            "latitude": 32.9898238
+        },
+        {
+            "longitude": -96.7509725,
+            "latitude": 32.989783800000005
+        },
+        {
+            "longitude": -96.75097330000001,
+            "latitude": 32.9896775
+        },
+        {
+            "longitude": -96.75097690000001,
+            "latitude": 32.989156
+        },
+        {
+            "longitude": -96.75097840000001,
+            "latitude": 32.9889348
+        },
+        {
+            "longitude": -96.7509828,
+            "latitude": 32.988304400000004
+        },
+        {
+            "longitude": -96.7509849,
+            "latitude": 32.987991300000004
+        },
+        {
+            "longitude": -96.7509852,
+            "latitude": 32.9879466
+        },
+        {
+            "longitude": -96.75098870000001,
+            "latitude": 32.9873873
+        },
+        {
+            "longitude": -96.7509921,
+            "latitude": 32.9868529
+        },
+        {
+            "longitude": -96.75099300000001,
+            "latitude": 32.986704
+        },
+        {
+            "longitude": -96.7509936,
+            "latitude": 32.9866382
+        },
+        {
+            "longitude": -96.7505924,
+            "latitude": 32.9866296
+        },
+        {
+            "longitude": -96.75056160000001,
+            "latitude": 32.9866498
+        },
+        {
+            "longitude": -96.75052500000001,
+            "latitude": 32.986660300000004
+        },
+        {
+            "longitude": -96.75048620000001,
+            "latitude": 32.9866593
+        },
+        {
+            "longitude": -96.75045530000001,
+            "latitude": 32.9866459
+        },
+        {
+            "longitude": -96.7504256,
+            "latitude": 32.986623900000005
+        }
+    ]
+}
+```
+Note that the code is an Enum type: 1-success, 0-failed. The following is a fialed example:
+```
+{
+    "code": 0,
+    "message": "Parameter error",
+    "data": null
+}
+```
