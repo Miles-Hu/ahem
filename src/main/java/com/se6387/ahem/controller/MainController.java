@@ -23,7 +23,8 @@ public class MainController {
     private MapService mapService;
 
     @GetMapping("/v1/route")
-    public ResponseEntity<List<Coordinate>> route(@RequestParam String coordinates) {
+    public ResponseEntity<List<Coordinate>> route(@RequestParam String coordinates,
+                                                  @RequestParam(required = false) List<Integer> sensitivePollutants) {
         ResponseEntity<List<Coordinate>> responseEntity = new ResponseEntity();
         String[] split = coordinates.split(",");
         if (split.length!= 4) {
@@ -31,7 +32,7 @@ public class MainController {
         }
         Coordinate start = new Coordinate(Double.parseDouble(split[0]), Double.parseDouble(split[1]));
         Coordinate end = new Coordinate(Double.parseDouble(split[2]), Double.parseDouble(split[3]));
-        return responseEntity.success(mapService.route(start, end));
+        return responseEntity.success(mapService.route(start, end, sensitivePollutants));
     }
 
 }

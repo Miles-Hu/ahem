@@ -2,7 +2,7 @@
 
 URL: 
 ```
-http://127.0.0.1:8082/v1/route?coordinates=-96.7533417,32.9950066,-96.7504163,32.9862204
+http://127.0.0.1:8082/v1/route?coordinates=-96.7533417,32.9950066,-96.7504163,32.9862204&sensitivePollutants=1,2,3
 ```
 
 HTTP Method: Get
@@ -10,6 +10,15 @@ HTTP Method: Get
 Input Parameters:
 ```
 coordinates=startPointLongitude,startPointLatitude,endPointLongitude,endPointLatitude
+sensitivePollutants: this is a optional parameter. it's used to represent the user's sensitive pollutants preferences.
+you can pass any combination of 1,2,3,4,5,6. those number means:
+    PM25(1),
+    PM10(2),
+    O3(3),
+    SO2(4),
+    CO(5),
+    NO2(6);
+For example: 1,2,3 means the user is sensitive to PM25,PM10,O3.
 ```
 
 Output Parameters:

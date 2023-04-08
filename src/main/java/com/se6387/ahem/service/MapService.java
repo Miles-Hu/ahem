@@ -19,8 +19,8 @@ public class MapService {
     @Autowired
     private MyOsmReader myOsmReader;
 
-    public List<Coordinate> route(Coordinate start, Coordinate end) {
-        return myOsmReader.route(start, end);
+    public List<Coordinate> route(Coordinate start, Coordinate end, List<Integer> sensitivePollutants) {
+        return myOsmReader.route(start, end, sensitivePollutants);
     }
 
 }

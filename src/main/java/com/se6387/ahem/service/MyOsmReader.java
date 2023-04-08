@@ -18,10 +18,7 @@ import javax.annotation.PostConstruct;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -35,6 +32,8 @@ public class MyOsmReader implements Sink {
      * nodeId to node, the longitude and latitude saved in the node
      */
     static Map<Long, Node> id2NodeMap = new HashMap<>();
+
+    static Map<List<Integer>, Map<Long, List<Edge>>> cachedGraph = new HashMap<>();
 
     static List<Node> nodes = new ArrayList<>();
  
@@ -91,11 +90,44 @@ public class MyOsmReader implements Sink {
         for (Node node : nodes) {
             id2NodeMap.put(node.getId(), node);
         }
+        refreshGraph();
+    }
+
+    private void refreshGraph() {
+        graph = computeEdgeWeight(graph, id2NodeMap, null);
+        cacheGraph();
+    }
+
+    private void cacheGraph() {
+        List<Integer> arrayList = Arrays.asList(1, 2, 3, 4, 5, 6);
+        List<List<Integer>> combinations = new ArrayList<>();
+        for (int i = 1; i <= arrayList.size(); i++) {
+            combinations.addAll(getCombinations(arrayList, i));
+        }
+        for (List<Integer> combination : combinations) {
+            Collections.sort(combination);
+            List<Pollutant> list = new ArrayList<>();
+            for (Integer integer : combination) {
+                list.add(Pollutant.fromValue(integer));
+            }
+            Map<Long, List<Edge>> newGraph = computeEdgeWeight(graph, id2NodeMap, list);
+            cachedGraph.put(combination, newGraph);
+        }
+    }
+
+    private Map<Long, List<Edge>> getGraph(List<Integer> sensitivePollutants) {
+        if (cachedGraph.containsKey(sensitivePollutants)) {
+            return cachedGraph.get(sensitivePollutants);
+        }
+        return graph;
     }
  
-    public List<Coordinate> route(Coordinate startPoint, Coordinate endPoint){
+    public List<Coordinate> route(Coordinate startPoint,
+                                  Coordinate endPoint,
+                                  List<Integer> sensitivePollutants){
         // double[] sP = {-96.7533417, 32.9950066}, eP = {-96.7504163, 32.9862204};
         double[] sP = {startPoint.getLongitude(), startPoint.getLatitude()}, eP = {endPoint.getLongitude(), endPoint.getLatitude()};
+        Map<Long, List<Edge>> newGraph = getGraph(sensitivePollutants);
         double loDis1 = 10000, laDis1 = 10000;
         double loDis2 = 10000, laDis2 = 10000;
         Node sNode = null, eNode = null;
@@ -114,7 +146,7 @@ public class MyOsmReader implements Sink {
         System.out.println(sNode.getLongitude() + ", " + sNode.getLatitude());
         System.out.println(eNode.getLongitude() + ", " + eNode.getLatitude());
         System.out.println();
-        List<Long> path = ShortestPathFinder.findShortestPath(graph, sNode.getId(), eNode.getId());
+        List<Long> path = ShortestPathFinder.findShortestPath(newGraph, sNode.getId(), eNode.getId());
         StringBuilder sb = new StringBuilder();
         List<Coordinate> result = new ArrayList<>();
         for (Long node : path) {
@@ -131,9 +163,52 @@ public class MyOsmReader implements Sink {
      * compute edge weight based on distance and pollutant level
      * @param graph the graph, default edge weight is 1
      * @param id2NodeMap coordinate of nodes in the graph
+     * @param sensitivePollutants user preferences for sensitive pollutants
      * @return new graph with computed edge weight
      */
-    public Map<Long, List<Edge>> computeEdgeWeight(Map<Long, List<Edge>> graph, Map<Long, Node> id2NodeMap) {
+    public Map<Long, List<Edge>> computeEdgeWeight(Map<Long, List<Edge>> graph,
+                                                   Map<Long, Node> id2NodeMap,
+                                                   List<Pollutant> sensitivePollutants) {
         return graph;
     }
+
+    public static List<List<Integer>> getCombinations(List<Integer> elements, int k) {
+        List<List<Integer>> combinations = new ArrayList<>();
+
+        // Base case: if k is zero, there is only one combination, which is an empty list.
+        if (k == 0) {
+            combinations.add(new ArrayList<>());
+            return combinations;
+        }
+
+        // Base case: if k is greater than the size of the elements list, there are no valid combinations.
+        if (k > elements.size()) {
+            return combinations;
+        }
+
+        // Get the first element and the remaining elements.
+        Integer firstElement = elements.get(0);
+        List<Integer> remainingElements = elements.subList(1, elements.size());
+
+        // Recursively compute the combinations of the remaining elements with k-1 elements.
+        List<List<Integer>> subCombinations = getCombinations(remainingElements, k - 1);
+
+        // Add the first element to each of the sub-combinations.
+        for (List<Integer> subCombination : subCombinations) {
+            List<Integer> combination = new ArrayList<>(subCombination);
+            combination.add(0, firstElement);
+            combinations.add(combination);
+        }
+
+        // Recursively compute the combinations of the remaining elements with k elements.
+        subCombinations = getCombinations(remainingElements, k);
+
+        // Add the sub-combinations to the result.
+        combinations.addAll(subCombinations);
+
+        return combinations;
+    }
+
+
+
 }
