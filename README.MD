@@ -222,3 +222,67 @@ Note that the code is an Enum type: 1-success, 0-failed. The following is a fail
     "data": null
 }
 ```
+
+
+2 get polygons by giving a northern latitude, a southern latitude, a western longitude, and an eastern longitude
+URL:
+```
+127.0.0.1:8082/v1/visualization/polygons?boundary=32.9950066,32.9862204,-96.7533417,-96.7504163
+```
+
+HTTP Method: Get
+
+Input Parameters:
+```
+boundary=northernLatitude,southernLatitude,westernLongitude,easternLongitude
+```
+
+Output Parameters:
+```
+{
+    "code": 1,
+    "message": "success",
+    "data": {
+        "polygons": [
+            {
+                "northernLatitude": 32.9950066,
+                "southernLatitude": 32.9862204,
+                "westernLongitude": -96.7533417,
+                "easternLongitude": -96.7504163,
+                "measurements": [
+                    {
+                        "pollutantId": "PM25",
+                        "value": 10,
+                        "timestamp": "2023-04-15T15:24:30.400Z"
+                    },
+                    {
+                        "pollutantId": "PM10",
+                        "value": 100,
+                        "timestamp": "2023-04-15T15:24:30.400Z"
+                    },
+                    {
+                        "pollutantId": "O3",
+                        "value": 200,
+                        "timestamp": "2023-04-15T15:24:30.400Z"
+                    },
+                    {
+                        "pollutantId": "SO2",
+                        "value": 300,
+                        "timestamp": "2023-04-15T15:24:30.400Z"
+                    },
+                    {
+                        "pollutantId": "CO",
+                        "value": 400,
+                        "timestamp": "2023-04-15T15:24:30.400Z"
+                    },
+                    {
+                        "pollutantId": "NO2",
+                        "value": 500,
+                        "timestamp": "2023-04-15T15:24:30.400Z"
+                    }
+                ]
+            }
+        ]
+    }
+}
+```
