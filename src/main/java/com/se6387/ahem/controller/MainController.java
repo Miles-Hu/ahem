@@ -7,6 +7,7 @@ import com.se6387.ahem.sensor.AqiPolygon;
 import com.se6387.ahem.sensor.AqiPolygons;
 import com.se6387.ahem.service.MapService;
 import com.se6387.ahem.service.Pollutant;
+import com.se6387.ahem.service.PollutantService;
 import com.se6387.ahem.view.Coordinate;
 import com.se6387.ahem.view.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,9 @@ public class MainController {
     @Autowired
     private CapturedPollutantRepository capturedPollutantRepository;
 
+    @Autowired
+    private PollutantService pollutantService;
+
     @GetMapping("/v1/route")
     public ResponseEntity<List<Coordinate>> route(@RequestParam String coordinates,
                                                   @RequestParam(required = false) List<Integer> sensitivePollutants) {
@@ -58,6 +62,10 @@ public class MainController {
 
     @GetMapping("/v1/visualization/polygons")
     public ResponseEntity<AqiPolygons> poligons(@RequestParam String boundary) {
+
+
+        pollutantService.getAqiPoints(0, 0);
+
         ResponseEntity responseEntity = new ResponseEntity();
         if (boundary == null || boundary.trim().length() == 0) {
             return responseEntity.fail("Parameter error");

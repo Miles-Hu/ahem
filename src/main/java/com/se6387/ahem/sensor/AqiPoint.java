@@ -1,5 +1,6 @@
 package com.se6387.ahem.sensor;
 
+
 import java.util.List;
 
 /*
@@ -29,5 +30,4 @@ public class AqiPoint {
     public List<AqiMeasurement> getMeasurements() {
         return this.measurements;
     }
-
 }
