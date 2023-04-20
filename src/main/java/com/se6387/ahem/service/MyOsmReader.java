@@ -11,6 +11,7 @@ import org.openstreetmap.osmosis.core.domain.v0_6.Tag;
 import org.openstreetmap.osmosis.core.domain.v0_6.Way;
 import org.openstreetmap.osmosis.core.domain.v0_6.WayNode;
 import org.openstreetmap.osmosis.core.task.v0_6.Sink;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -23,6 +24,9 @@ import java.util.stream.Collectors;
 
 @Component
 public class MyOsmReader implements Sink {
+
+    @Autowired
+    private EdgeWeightSetter edgeWeightSetter;
 
     /**
      * the graph representing the OSM data
@@ -94,7 +98,7 @@ public class MyOsmReader implements Sink {
     }
 
     private void refreshGraph() {
-        graph = computeEdgeWeight(graph, id2NodeMap, null);
+        graph = edgeWeightSetter.computeEdgeWeight(graph, id2NodeMap, null);
         cacheGraph();
     }
 
@@ -110,7 +114,7 @@ public class MyOsmReader implements Sink {
             for (Integer integer : combination) {
                 list.add(Pollutant.fromValue(integer));
             }
-            Map<Long, List<Edge>> newGraph = computeEdgeWeight(graph, id2NodeMap, list);
+            Map<Long, List<Edge>> newGraph = edgeWeightSetter.computeEdgeWeight(graph, id2NodeMap, list);
             cachedGraph.put(combination, newGraph);
         }
     }

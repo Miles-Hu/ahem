@@ -74,7 +74,7 @@ public class EdgeWeightSetter {
 
                 //finding the max AQI value in the list of aqi values at to Node
                 int toMaxAQI = 0;
-                for (AqiMeasurement aqiValue: fromNodeAQIValues){
+                for (AqiMeasurement aqiValue: toNodeAQIValues){
                     int temp =aqiValue.getValue();
                     if( temp >toMaxAQI){
                         toMaxAQI = temp;
