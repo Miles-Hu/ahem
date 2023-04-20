@@ -61,7 +61,7 @@ public class MainController {
     }
 
     @GetMapping("/v1/visualization/polygons")
-    public ResponseEntity<AqiPolygons> poligons(@RequestParam String boundary) {
+    public ResponseEntity<AqiPolygons> polygons(@RequestParam String boundary, @RequestParam Integer decimalPlaces) {
 
 
         pollutantService.getAqiPoints(0, 0);
@@ -70,13 +70,17 @@ public class MainController {
         if (boundary == null || boundary.trim().length() == 0) {
             return responseEntity.fail("Parameter error");
         }
+
         String[] split = boundary.split(",");
         double northernLatitude = Double.parseDouble(split[0]);
         double southernLatitude = Double.parseDouble(split[1]);
         double westernLongitude = Double.parseDouble(split[2]);
         double easternLongitude = Double.parseDouble(split[3]);
 
-        AqiMeasurement PM25 = new AqiMeasurement(Pollutant.PM25, 10, Instant.now());
+        return responseEntity.success(pollutantService
+                .getAqiPolygons(northernLatitude, southernLatitude, westernLongitude, easternLongitude, decimalPlaces));
+
+        /*AqiMeasurement PM25 = new AqiMeasurement(Pollutant.PM25, 10, Instant.now());
         AqiMeasurement PM10 = new AqiMeasurement(Pollutant.PM10, 100, Instant.now());
         AqiMeasurement O3 = new AqiMeasurement(Pollutant.O3, 200, Instant.now());
         AqiMeasurement SO2 = new AqiMeasurement(Pollutant.SO2, 300, Instant.now());
@@ -87,7 +91,7 @@ public class MainController {
         List<AqiPolygon> list = new ArrayList<>();
         list.add(ap);
         AqiPolygons aqiPolygons = new AqiPolygons(list);
-        return responseEntity.success(aqiPolygons);
+        return responseEntity.success(aqiPolygons);*/
 
     }
 
