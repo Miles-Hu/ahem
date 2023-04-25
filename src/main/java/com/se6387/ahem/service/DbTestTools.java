@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -107,6 +108,8 @@ Attempts to generate realistic data for every sensor
         List<Sensor> sensors = sensorRepository.findAll();
         List<Pollutant> pollutants = pollutantRepository.findAll();
 
+        List<CapturedPollutant> records = new ArrayList<>();
+
         for(Sensor s: sensors) {
             for (Pollutant p: pollutants) {
 
@@ -117,10 +120,11 @@ Attempts to generate realistic data for every sensor
                 record.setValue(new BigDecimal(this.get_random_pollutant_value(p.getAqiBreakpoints())));
                 record.setAqi(-1);
                 record.setUnit("");
-                capturedPollutantRepository.save(record);
-
+                records.add(record);
             }
         }
+
+        capturedPollutantRepository.saveAll(records);
     }
 
     /**

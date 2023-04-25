@@ -129,19 +129,6 @@ public class MainController {
         return responseEntity.success(pollutantService
                 .getAqiPolygons(northernLatitude, southernLatitude, westernLongitude, easternLongitude, decimalPlaces));
 
-        /*AqiMeasurement PM25 = new AqiMeasurement(Pollutant.PM25, 10, Instant.now());
-        AqiMeasurement PM10 = new AqiMeasurement(Pollutant.PM10, 100, Instant.now());
-        AqiMeasurement O3 = new AqiMeasurement(Pollutant.O3, 200, Instant.now());
-        AqiMeasurement SO2 = new AqiMeasurement(Pollutant.SO2, 300, Instant.now());
-        AqiMeasurement CO = new AqiMeasurement(Pollutant.CO, 400, Instant.now());
-        AqiMeasurement NO2 = new AqiMeasurement(Pollutant.NO2, 500, Instant.now());
-        List<AqiMeasurement> aqiMeasurements = new ArrayList<>(Arrays.asList(PM25, PM10, O3, SO2, CO, NO2));
-        AqiPolygon ap = new AqiPolygon(northernLatitude, southernLatitude, westernLongitude, easternLongitude, aqiMeasurements);
-        List<AqiPolygon> list = new ArrayList<>();
-        list.add(ap);
-        AqiPolygons aqiPolygons = new AqiPolygons(list);
-        return responseEntity.success(aqiPolygons);*/
-
     }
 
 }
