@@ -30,7 +30,7 @@ public class AqiPolygons {
                                   CapturedPollutantRepository capturedPollutantRepository,
                                   SensorRepository sensorRepository) {
         AqiPolygons result = null;
-        //TODO
+
         List<CapturedPollutant> caputuredPollutants = capturedPollutantRepository.findAll
         result += "pollutantExample: " + pollutantRepository +"\n";
         List<Pollutant> pollutants = pollutantRepository.findAll();
