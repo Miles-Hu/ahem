@@ -1,7 +1,7 @@
 package com.se6387.ahem.service;
 
 
-public enum Pollutant {
+public enum PollutantEnum {
 
     PM25(1),
     PM10(2),
@@ -12,7 +12,7 @@ public enum Pollutant {
 
     private Integer value;
 
-    Pollutant(Integer value) {
+    PollutantEnum(Integer value) {
         this.value = value;
     }
 
@@ -24,8 +24,8 @@ public enum Pollutant {
         this.value = value;
     }
 
-    public static Pollutant fromValue(Integer value) {
-        for (Pollutant pollutant : Pollutant.values()) {
+    public static PollutantEnum fromValue(Integer value) {
+        for (PollutantEnum pollutant : PollutantEnum.values()) {
             if (pollutant.getValue().equals(value)) {
                 return pollutant;
             }

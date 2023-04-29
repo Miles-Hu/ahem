@@ -2,24 +2,16 @@ package com.se6387.ahem.controller;
 
 import com.se6387.ahem.model.CapturedPollutant;
 import com.se6387.ahem.repository.CapturedPollutantRepository;
-import com.se6387.ahem.sensor.AqiMeasurement;
 import com.se6387.ahem.sensor.AqiPoint;
-import com.se6387.ahem.sensor.AqiPolygon;
 import com.se6387.ahem.sensor.AqiPolygons;
 import com.se6387.ahem.service.DbTestTools;
 import com.se6387.ahem.service.MapService;
-import com.se6387.ahem.service.Pollutant;
 import com.se6387.ahem.service.PollutantService;
 import com.se6387.ahem.view.Coordinate;
 import com.se6387.ahem.view.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -48,6 +40,7 @@ public class MainController {
     @GetMapping("/v1/route")
     public ResponseEntity<List<Coordinate>> route(@RequestParam String coordinates,
                                                   @RequestParam(required = false) List<Integer> sensitivePollutants) {
+        System.out.println("Request for route: " + coordinates);
         ResponseEntity<List<Coordinate>> responseEntity = new ResponseEntity<>();
         String[] split = coordinates.split(",");
         if (split.length!= 4) {
@@ -112,6 +105,7 @@ public class MainController {
     @GetMapping("/v1/visualization/polygons")
     public ResponseEntity<AqiPolygons> polygons(@RequestParam String boundary, @RequestParam Integer decimalPlaces) {
 
+        System.out.println("Requesting polygons: " + boundary);
 
         pollutantService.getAqiPoints(0, 0);
 

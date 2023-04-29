@@ -13,7 +13,6 @@ import org.openstreetmap.osmosis.core.domain.v0_6.WayNode;
 import org.openstreetmap.osmosis.core.task.v0_6.Sink;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.annotation.PostConstruct;
 import java.io.FileInputStream;
@@ -110,9 +109,9 @@ public class MyOsmReader implements Sink {
         }
         for (List<Integer> combination : combinations) {
             Collections.sort(combination);
-            List<Pollutant> list = new ArrayList<>();
+            List<PollutantEnum> list = new ArrayList<>();
             for (Integer integer : combination) {
-                list.add(Pollutant.fromValue(integer));
+                list.add(PollutantEnum.fromValue(integer));
             }
             Map<Long, List<Edge>> newGraph = computeEdgeWeight(graph, id2NodeMap, list);
             cachedGraph.put(combination, newGraph);
@@ -172,7 +171,7 @@ public class MyOsmReader implements Sink {
      */
     public Map<Long, List<Edge>> computeEdgeWeight(Map<Long, List<Edge>> graph,
                                                    Map<Long, Node> id2NodeMap,
-                                                   List<Pollutant> sensitivePollutants) {
+                                                   List<PollutantEnum> sensitivePollutants) {
         return graph;
     }
 

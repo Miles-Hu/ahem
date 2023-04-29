@@ -13,7 +13,6 @@ import com.se6387.ahem.sensor.AqiPolygons;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.TypedQuery;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -55,16 +54,15 @@ public class PollutantService {
         return ids;
     }
 
-    private com.se6387.ahem.service.Pollutant getPollutantEnum(String abbreviation) {
-        com.se6387.ahem.service.Pollutant result = null;
+    private PollutantEnum getPollutantEnum(String abbreviation) {
+        PollutantEnum result = null;
 
-        if ("PM25".equals(abbreviation)) result = com.se6387.ahem.service.Pollutant.PM25;
-        else if ("PM10".equals(abbreviation)) result = com.se6387.ahem.service.Pollutant.PM25;
-        else if ("PM25".equals(abbreviation)) result = com.se6387.ahem.service.Pollutant.PM25;
-        else if ("O3".equals(abbreviation)) result = com.se6387.ahem.service.Pollutant.PM25;
-        else if ("SO2".equals(abbreviation)) result = com.se6387.ahem.service.Pollutant.PM25;
-        else if ("CO".equals(abbreviation)) result = com.se6387.ahem.service.Pollutant.PM25;
-        else if ("NO2".equals(abbreviation)) result = com.se6387.ahem.service.Pollutant.PM25;
+        if ("PM25".equals(abbreviation)) result = PollutantEnum.PM25;
+        else if ("PM10".equals(abbreviation)) result = PollutantEnum.PM10;
+        else if ("O3".equals(abbreviation)) result = PollutantEnum.O3;
+        else if ("SO2".equals(abbreviation)) result = PollutantEnum.SO2;
+        else if ("CO".equals(abbreviation)) result = PollutantEnum.CO;
+        else if ("NO2".equals(abbreviation)) result = PollutantEnum.NO2;
 
         return result;
     }

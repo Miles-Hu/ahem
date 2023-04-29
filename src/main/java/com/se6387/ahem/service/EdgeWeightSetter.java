@@ -6,7 +6,6 @@ import org.openstreetmap.osmosis.core.domain.v0_6.Node;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.lang.Math;
@@ -25,7 +24,7 @@ public class EdgeWeightSetter {
      */
     public Map<Long, List<Edge>> computeEdgeWeight(Map<Long, List<Edge>> graph,
                                                    Map<Long, Node> id2NodeMap,
-                                                   List<Pollutant> sensitivePollutants) {
+                                                   List<PollutantEnum> sensitivePollutants) {
         //iterate through map where entry refers to a key value pair in the map
         for (Map.Entry<Long, List<Edge>> entry : graph.entrySet()) {
 

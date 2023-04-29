@@ -1,6 +1,6 @@
 package com.se6387.ahem.sensor;
 
-import com.se6387.ahem.service.Pollutant;
+import com.se6387.ahem.service.PollutantEnum;
 import java.time.Instant;
 
 /*
@@ -9,17 +9,17 @@ import java.time.Instant;
 
 public class AqiMeasurement {
 
-    private final Pollutant pollutantId;
+    private final PollutantEnum pollutantId;
     private final int value;
     private final Instant timestamp;
 
-    public AqiMeasurement(Pollutant pollutantId, int value, Instant timestamp) {
+    public AqiMeasurement(PollutantEnum pollutantId, int value, Instant timestamp) {
         this.pollutantId = pollutantId;
         this.value = value;
         this.timestamp = timestamp;
     }
 
-    public Pollutant getPollutantId() {
+    public PollutantEnum getPollutantId() {
         return this.pollutantId;
     }
 

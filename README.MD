@@ -227,7 +227,7 @@ Note that the code is an Enum type: 1-success, 0-failed. The following is a fail
 2 get polygons by giving a northern latitude, a southern latitude, a western longitude, and an eastern longitude
 URL:
 ```
-127.0.0.1:8082/v1/visualization/polygons?boundary=32.9950066,32.9862204,-96.7533417,-96.7504163
+127.0.0.1:8082/v1/visualization/polygons?boundary=32.9950066,32.9862204,-96.7533417,-96.7504163&decimalPlaces=4
 ```
 
 HTTP Method: Get
@@ -235,6 +235,7 @@ HTTP Method: Get
 Input Parameters:
 ```
 boundary=northernLatitude,southernLatitude,westernLongitude,easternLongitude
+decimalPlaces=4
 ```
 
 Output Parameters:
