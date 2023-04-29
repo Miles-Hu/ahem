@@ -10,13 +10,13 @@ import com.se6387.ahem.sensor.AqiMeasurement;
 import com.se6387.ahem.sensor.AqiPoint;
 import com.se6387.ahem.sensor.AqiPolygon;
 import com.se6387.ahem.sensor.AqiPolygons;
+import com.se6387.ahem.utils.DatabaseCacheUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class PollutantService {
@@ -83,7 +83,7 @@ public class PollutantService {
             Date now = new Date();
             List<AqiMeasurement> measurements = new ArrayList<AqiMeasurement>();
             for (Pollutant p : pollutants) {
-                CapturedPollutant capturedPollutant = capturedPollutantRepository.getMostRecent(s.getSensorId(), p.getPollutantId(), now);
+                CapturedPollutant capturedPollutant = getMostRecent(s.getSensorId(), p.getPollutantId(), now);
                 measurements.add(new AqiMeasurement(
                         getPollutantEnum(p.getAbbreviation()),
                         p.aqiFromRawMeasurement(capturedPollutant.getValue().doubleValue()),
@@ -109,27 +109,29 @@ public class PollutantService {
         // this assumes Euclidean geometry and is only intended for a small set of sensors.
         Sensor result = sensors.get(0); // TODO this only finds a near sensor, not the nearest.
         double distance = 100;
-
-
+        for (Sensor sensor : sensors) {
+            double tmpDis = Math.abs(sensor.getSensorId().doubleValue() - latitude) +
+                    Math.abs(sensor.getLongitude().doubleValue() - longitude);
+            if (tmpDis < distance) {
+                result = sensor;
+                distance = tmpDis;
+            }
+        }
         return result;
     }
 
     public AqiPoint getAqiPoint(double latitude, double longitude){
         // TODO wip
-        double increment = 0.01; // this is dangerously assuming that we have sensors every third decimal place . . .
-        List<Pollutant> pollutants = pollutantRepository.findAll();
+        //double increment = 1; // this is dangerously assuming that we have sensors every third decimal place . . .
+        List<Pollutant> pollutantsTable = DatabaseCacheUtil.POLLUTANTS_TABLE;
+        List<Sensor> sensors = DatabaseCacheUtil.SENSORS_TABLE;
 
-        List<Sensor> sensors = sensorRepository.boxOfSensors(
-                new BigDecimal(latitude + increment),
-                new BigDecimal(latitude - increment),
-                new BigDecimal(longitude - increment),
-                new BigDecimal(longitude + increment));
         Sensor nearest = getNearestSensor(sensors, latitude, longitude);
 
         Date now = new Date();
         List<AqiMeasurement> measurements = new ArrayList<AqiMeasurement>();
-        for (Pollutant p : pollutants) {
-            CapturedPollutant capturedPollutant = capturedPollutantRepository.getMostRecent(nearest.getSensorId(), p.getPollutantId(), now);
+        for (Pollutant p : pollutantsTable) {
+            CapturedPollutant capturedPollutant = getMostRecent(nearest.getSensorId(), p.getPollutantId(), now);
             measurements.add(new AqiMeasurement(
                     getPollutantEnum(p.getAbbreviation()),
                     p.aqiFromRawMeasurement(capturedPollutant.getValue().doubleValue()),
@@ -140,6 +142,20 @@ public class PollutantService {
     }
 
 
+    private CapturedPollutant getMostRecent(Integer sensorId, Integer pollutantId, Date now) {
+        Map<Integer, Map<Integer, List<CapturedPollutant>>> map = DatabaseCacheUtil.CAPTURED_POLLUTANT_TABLE;
+        List<CapturedPollutant> capturedPollutants = map.get(pollutantId).get(sensorId);
+        CapturedPollutant result = capturedPollutants.get(0);
+        long difference = Long.MAX_VALUE;
+        for (int i = 1; i < capturedPollutants.size(); i++) {
+            CapturedPollutant tmp = capturedPollutants.get(i);
+            if (tmp.getDatetime().compareTo(now) < 0 && now.getTime() - tmp.getDatetime().getTime() < difference) {
+                result = tmp;
+                difference = now.getTime() - tmp.getDatetime().getTime();
+            }
+        }
+        return result;
+    }
 
 
 }

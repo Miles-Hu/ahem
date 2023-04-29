@@ -1,5 +1,10 @@
 package com.se6387.ahem.service;
 
+import com.se6387.ahem.model.CapturedPollutant;
+import com.se6387.ahem.repository.CapturedPollutantRepository;
+import com.se6387.ahem.repository.PollutantRepository;
+import com.se6387.ahem.repository.SensorRepository;
+import com.se6387.ahem.utils.DatabaseCacheUtil;
 import com.se6387.ahem.view.Coordinate;
 import crosby.binary.osmosis.OsmosisReader;
 import org.openstreetmap.osmosis.core.container.v0_6.EntityContainer;
@@ -39,6 +44,15 @@ public class MyOsmReader implements Sink {
     static Map<List<Integer>, Map<Long, List<Edge>>> cachedGraph = new HashMap<>();
 
     static List<Node> nodes = new ArrayList<>();
+
+    @Autowired
+    private PollutantRepository pollutantRepository;
+
+    @Autowired
+    private SensorRepository sensorRepository;
+
+    @Autowired
+    private CapturedPollutantRepository capturedPollutantRepository;
  
     @Override
     public void initialize(Map<String, Object> arg0) {
@@ -84,7 +98,7 @@ public class MyOsmReader implements Sink {
 
     @PostConstruct
     public void init() throws FileNotFoundException {
-        InputStream inputStream = new FileInputStream("src/UTD_area.osm.pbf");
+        InputStream inputStream = new FileInputStream("src/UTD_small.osm.pbf");
         OsmosisReader reader = new OsmosisReader(inputStream);
         reader.setSink(new MyOsmReader());
         reader.run();
@@ -93,12 +107,24 @@ public class MyOsmReader implements Sink {
         for (Node node : nodes) {
             id2NodeMap.put(node.getId(), node);
         }
+        cacheDB();
         refreshGraph();
+    }
+
+    private void cacheDB() {
+        List<CapturedPollutant> all = capturedPollutantRepository.findAll();
+        for (CapturedPollutant capturedPollutant : all) {
+            DatabaseCacheUtil.CAPTURED_POLLUTANT_TABLE.computeIfAbsent(capturedPollutant.getPollutantId(), e -> new HashMap<>())
+                    .computeIfAbsent(capturedPollutant.getSensorId(), e -> new ArrayList<>())
+                    .add(capturedPollutant);
+        }
+        DatabaseCacheUtil.POLLUTANTS_TABLE.addAll(pollutantRepository.findAll());
+        DatabaseCacheUtil.SENSORS_TABLE.addAll(sensorRepository.findAll());
     }
 
     private void refreshGraph() {
         graph = edgeWeightSetter.computeEdgeWeight(graph, id2NodeMap, null);
-        cacheGraph();
+        //cacheGraph();
     }
 
     private void cacheGraph() {
