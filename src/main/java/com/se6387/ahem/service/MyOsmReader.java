@@ -97,7 +97,7 @@ public class MyOsmReader implements Sink {
     }
 
     private void refreshGraph() {
-        graph = computeEdgeWeight(graph, id2NodeMap, null);
+        graph = edgeWeightSetter.computeEdgeWeight(graph, id2NodeMap, null);
         cacheGraph();
     }
 
@@ -113,7 +113,7 @@ public class MyOsmReader implements Sink {
             for (Integer integer : combination) {
                 list.add(PollutantEnum.fromValue(integer));
             }
-            Map<Long, List<Edge>> newGraph = computeEdgeWeight(graph, id2NodeMap, list);
+            Map<Long, List<Edge>> newGraph = edgeWeightSetter.computeEdgeWeight(graph, id2NodeMap, list);
             cachedGraph.put(combination, newGraph);
         }
     }
