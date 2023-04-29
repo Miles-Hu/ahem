@@ -143,7 +143,7 @@ public class PollutantService {
 
 
     private CapturedPollutant getMostRecent(Integer sensorId, Integer pollutantId, Date now) {
-        Map<Integer, Map<Integer, List<CapturedPollutant>>> map = DatabaseCacheUtil.CAPTURED_POLLUTANT_TABLE;
+        Map<Integer, Map<Integer, List<CapturedPollutant>>> map = DatabaseCacheUtil.CAPTURED_POLLUTANT_TABLE_MAP;
         List<CapturedPollutant> capturedPollutants = map.get(pollutantId).get(sensorId);
         CapturedPollutant result = capturedPollutants.get(0);
         long difference = Long.MAX_VALUE;

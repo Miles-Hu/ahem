@@ -113,8 +113,9 @@ public class MyOsmReader implements Sink {
 
     private void cacheDB() {
         List<CapturedPollutant> all = capturedPollutantRepository.findAll();
+        DatabaseCacheUtil.CAPTURED_POLLUTANT_TABLE.addAll(all);
         for (CapturedPollutant capturedPollutant : all) {
-            DatabaseCacheUtil.CAPTURED_POLLUTANT_TABLE.computeIfAbsent(capturedPollutant.getPollutantId(), e -> new HashMap<>())
+            DatabaseCacheUtil.CAPTURED_POLLUTANT_TABLE_MAP.computeIfAbsent(capturedPollutant.getPollutantId(), e -> new HashMap<>())
                     .computeIfAbsent(capturedPollutant.getSensorId(), e -> new ArrayList<>())
                     .add(capturedPollutant);
         }

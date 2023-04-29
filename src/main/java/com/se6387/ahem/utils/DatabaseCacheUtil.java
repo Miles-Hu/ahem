@@ -17,7 +17,9 @@ import java.util.Map;
 
 public class DatabaseCacheUtil {
 
-    public static final Map<Integer, Map<Integer, List<CapturedPollutant>>> CAPTURED_POLLUTANT_TABLE = new HashMap<>();
+    public static final Map<Integer, Map<Integer, List<CapturedPollutant>>> CAPTURED_POLLUTANT_TABLE_MAP = new HashMap<>();
+
+    public static final List<CapturedPollutant> CAPTURED_POLLUTANT_TABLE = new ArrayList<>();
 
     public static final List<Sensor> SENSORS_TABLE = new ArrayList<>();
 
