@@ -72,9 +72,8 @@ public class PollutantService {
      */
     public AqiPolygons getAqiPolygons(double nLat, double sLat, double wLon, double eLon, int decimalPlaces) {
         decimalPlaces = 3; //TODO this is bad; ignoring decimalPlace parameter
-        double increment = Math.pow(10, -decimalPlaces);
+        double increment = Math.pow(10, -decimalPlaces) / 2.0;
         List<AqiPolygon> polygons = new ArrayList<>();
-        //List<Integer> sensorIds = this.getSensorIds(nLat, sLat, wLon, eLon);
         List<Sensor> sensors = sensorRepository.boxOfSensors(new BigDecimal(nLat), new BigDecimal(sLat),
                 new BigDecimal(wLon), new BigDecimal(eLon));
         List<Pollutant> pollutants = pollutantRepository.findAll();
@@ -91,10 +90,10 @@ public class PollutantService {
                 );
             }
             polygons.add(new AqiPolygon(
-                    roundDouble(s.getLatitude().doubleValue() + increment, decimalPlaces),
-                    roundDouble(s.getLatitude().doubleValue() - increment, decimalPlaces),
-                    roundDouble(s.getLongitude().doubleValue() - increment, decimalPlaces),
-                    s.getLongitude().doubleValue() + increment,
+                    roundDouble(s.getLatitude().doubleValue() + increment, decimalPlaces + 1),
+                    roundDouble(s.getLatitude().doubleValue() - increment, decimalPlaces + 1 ),
+                    roundDouble(s.getLongitude().doubleValue() - increment, decimalPlaces + 1),
+                    roundDouble(s.getLongitude().doubleValue() + increment, decimalPlaces + 1),
                     measurements
             ));
         }

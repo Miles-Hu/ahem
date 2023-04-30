@@ -88,6 +88,7 @@ public class MainController {
 
     @GetMapping("v1/pollutant/get_aqi_polygons") // jtsmith
     // http://localhost:8082/v1/pollutant/get_aqi_polygons?nLat=32.99&sLat=32.95&wLon=-96.8&eLon=-96.7&decimalPlaces=3
+    // http://localhost:8082/v1/pollutant/get_aqi_polygons?nLat=32.9855&sLat=32.983&wLon=-96.75&eLon=-96.745&decimalPlaces=3
     public ResponseEntity<AqiPolygons> getAqiPolygons(@RequestParam double nLat, @RequestParam double sLat, @RequestParam double wLon, @RequestParam double eLon, @RequestParam int decimalPlaces) {
         ResponseEntity<AqiPolygons> responseEntity = new ResponseEntity<AqiPolygons>();
         AqiPolygons result = pollutantService.getAqiPolygons(nLat, sLat, wLon, eLon, decimalPlaces);
