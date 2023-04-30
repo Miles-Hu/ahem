@@ -49,7 +49,7 @@ public class EdgeWeightSetter {
                 Double lat2 = toNode.getLatitude();
                 Double long1 = fromNode.getLongitude();
                 Double long2 = toNode.getLongitude();
-                Double distanceInMiles = Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(long2 - long1)) * 6371 / 1.6;
+                double distanceInMiles = Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(long2 - long1)) * 6371 / 1.6;
 
 
 
@@ -81,7 +81,8 @@ public class EdgeWeightSetter {
                 }
 
                 //computing edge weight function
-                Double edgeWeight = distanceInMiles*(fromMaxAQI + toMaxAQI)/2;
+                double AQI_weight = (fromMaxAQI + toMaxAQI)/2;
+                Double edgeWeight = 0.3*distanceInMiles + 0.7*AQI_weight;
 
                 edge.setWeight(edgeWeight);
             }
