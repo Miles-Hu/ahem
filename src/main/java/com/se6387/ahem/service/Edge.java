@@ -17,9 +17,29 @@ public class Edge {
 
     private Double weight;
 
+    private Double distance_feet;
+
+
+
     public Edge(Long from, Long to, Double weight) {
         this.from = from;
         this.to = to;
         this.weight = weight;
+    }
+
+    public void setWeight(double Weight){
+        this.weight = Weight;
+    }
+
+    public double getWeight(){
+        return this.weight;
+    }
+
+    public void setDistance(double Distance){
+        this.distance_feet = Distance;
+    }
+
+    public double getDistance(){
+        return this.distance_feet;
     }
 }

@@ -90,6 +90,10 @@ public class EdgeWeightSetter {
 
                 //computing edge weight function
                 double AQI_weight = (fromMaxAQI + toMaxAQI)/2;
+
+                //set edge distance in feet
+                edge.setDistance_feet(distanceInMiles*5280);
+
                 Double edgeWeight = 0.3*distanceInMiles + 0.7*AQI_weight;
 
                 edge.setWeight(edgeWeight);
