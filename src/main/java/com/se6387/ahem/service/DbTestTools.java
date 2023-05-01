@@ -94,9 +94,10 @@ public class DbTestTools {
     }
 
     double get_random_pollutant_value(double[] breakpoints) {
-        double AQI_500_BREAKPOINT_HI = breakpoints[0];
+        //double AQI_500_BREAKPOINT_HI = breakpoints[0];  // this produced too many unhealthy measurements
+        double AQI_300_BREAKPOINT_HI = breakpoints[2];
         int decimalPlaces = (int) breakpoints[7];
-        return roundDouble(AQI_500_BREAKPOINT_HI * Math.pow(Math.random(), 6), decimalPlaces);
+        return roundDouble(AQI_300_BREAKPOINT_HI * Math.pow(Math.random(), 6), decimalPlaces);
     }
 
 
