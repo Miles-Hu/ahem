@@ -124,7 +124,7 @@ public class MyOsmReader implements Sink {
     }
 
     private void refreshGraph() {
-        graph = edgeWeightSetter.computeEdgeWeight(graph, id2NodeMap, null);
+        graph = edgeWeightSetter.computeEdgeWeight(graph, id2NodeMap, new ArrayList<>());
         //cacheGraph();
     }
 
@@ -146,10 +146,19 @@ public class MyOsmReader implements Sink {
     }
 
     private Map<Long, List<Edge>> getGraph(List<Integer> sensitivePollutants) {
+        if (sensitivePollutants == null || sensitivePollutants.isEmpty()) {
+            return graph;
+        }
         if (cachedGraph.containsKey(sensitivePollutants)) {
             return cachedGraph.get(sensitivePollutants);
         }
-        return graph;
+        List<PollutantEnum> paramList = new ArrayList<>();
+        for (Integer integer : sensitivePollutants) {
+            paramList.add(PollutantEnum.fromValue(integer));
+        }
+        Map<Long, List<Edge>> newGraph = edgeWeightSetter.computeEdgeWeight(graph, id2NodeMap, paramList);
+        cachedGraph.put(sensitivePollutants, newGraph);
+        return newGraph;
     }
  
     public List<Coordinate> route(Coordinate startPoint,

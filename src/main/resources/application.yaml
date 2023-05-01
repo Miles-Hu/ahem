@@ -5,7 +5,7 @@ spring:
     driverClassName: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/ahem_measurements?useSSL=false&useUnicode=true&characterEncoding=utf8
     username: root
-    password: root
+    password:
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     show-sql: true

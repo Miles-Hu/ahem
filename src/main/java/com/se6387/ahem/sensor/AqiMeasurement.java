@@ -31,4 +31,12 @@ public class AqiMeasurement {
         return this.timestamp;
     }
 
+    @Override
+    public String toString() {
+        return "AqiMeasurement{" +
+                "pollutantId=" + pollutantId +
+                ", value=" + value +
+                ", timestamp=" + timestamp +
+                '}';
+    }
 }

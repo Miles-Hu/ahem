@@ -109,7 +109,7 @@ public class PollutantService {
         Sensor result = sensors.get(0); // TODO this only finds a near sensor, not the nearest.
         double distance = 100;
         for (Sensor sensor : sensors) {
-            double tmpDis = Math.abs(sensor.getSensorId().doubleValue() - latitude) +
+            double tmpDis = Math.abs(sensor.getLatitude().doubleValue() - latitude) +
                     Math.abs(sensor.getLongitude().doubleValue() - longitude);
             if (tmpDis < distance) {
                 result = sensor;
@@ -137,6 +137,7 @@ public class PollutantService {
                     capturedPollutant.getDatetime().toInstant())
             );
         }
+        //System.out.println(measurements);
         return new AqiPoint(latitude, longitude, measurements);
     }
 

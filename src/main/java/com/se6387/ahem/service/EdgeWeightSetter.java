@@ -15,6 +15,8 @@ public class EdgeWeightSetter {
     @Autowired
     private PollutantService pollutantService;
 
+    public static final Integer SENSITIVE_WEIGHT = 100;
+
     /**
      * compute edge weight based on distance and pollutant level
      * @param graph the graph, default edge weight is 1
@@ -62,7 +64,10 @@ public class EdgeWeightSetter {
                 int fromMaxAQI = 0;
                 for (AqiMeasurement aqiValue: fromNodeAQIValues){
                     int temp =aqiValue.getValue();
-                    if( temp >fromMaxAQI){
+                    if (sensitivePollutants.contains(aqiValue.getPollutantId())) {
+                        temp += SENSITIVE_WEIGHT;
+                    }
+                    if(temp >fromMaxAQI){
                         fromMaxAQI = temp;
                     }
                 }
@@ -74,8 +79,11 @@ public class EdgeWeightSetter {
                 //finding the max AQI value in the list of aqi values at to Node
                 int toMaxAQI = 0;
                 for (AqiMeasurement aqiValue: toNodeAQIValues){
-                    int temp =aqiValue.getValue();
-                    if( temp >toMaxAQI){
+                    int temp = aqiValue.getValue();
+                    if (sensitivePollutants.contains(aqiValue.getPollutantId())) {
+                        temp += SENSITIVE_WEIGHT;
+                    }
+                    if(temp >toMaxAQI){
                         toMaxAQI = temp;
                     }
                 }
@@ -85,6 +93,7 @@ public class EdgeWeightSetter {
                 Double edgeWeight = 0.3*distanceInMiles + 0.7*AQI_weight;
 
                 edge.setWeight(edgeWeight);
+                System.out.println(edgeWeight);
             }
         }
         return graph;

@@ -12,6 +12,8 @@ import com.se6387.ahem.view.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -48,6 +50,7 @@ public class MainController {
         }
         Coordinate start = new Coordinate(Double.parseDouble(split[0]), Double.parseDouble(split[1]));
         Coordinate end = new Coordinate(Double.parseDouble(split[2]), Double.parseDouble(split[3]));
+        Collections.sort(sensitivePollutants);
         return responseEntity.success(mapService.route(start, end, sensitivePollutants));
     }
 
