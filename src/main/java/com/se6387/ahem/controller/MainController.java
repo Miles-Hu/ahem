@@ -2,7 +2,9 @@ package com.se6387.ahem.controller;
 
 import com.se6387.ahem.model.CapturedPollutant;
 import com.se6387.ahem.repository.CapturedPollutantRepository;
+import com.se6387.ahem.sensor.AqiMeasurement;
 import com.se6387.ahem.sensor.AqiPoint;
+import com.se6387.ahem.sensor.AqiPolygon;
 import com.se6387.ahem.sensor.AqiPolygons;
 import com.se6387.ahem.service.DbTestTools;
 import com.se6387.ahem.service.MapService;
@@ -123,9 +125,27 @@ public class MainController {
         double southernLatitude = Double.parseDouble(split[1]);
         double westernLongitude = Double.parseDouble(split[2]);
         double easternLongitude = Double.parseDouble(split[3]);
+        AqiPolygons aqiPolygons = pollutantService
+                .getAqiPolygons(northernLatitude, southernLatitude, westernLongitude, easternLongitude, decimalPlaces);
 
-        return responseEntity.success(pollutantService
-                .getAqiPolygons(northernLatitude, southernLatitude, westernLongitude, easternLongitude, decimalPlaces));
+
+        int redNum = 0, yellowNum = 0, greenNum = 0;
+        for (AqiPolygon polygon : aqiPolygons.getPolygons()) {
+            int maxAQI = 0;
+            for (AqiMeasurement aqiMeasurement : polygon.getMeasurements()) {
+                maxAQI = Math.max(maxAQI, aqiMeasurement.getValue());
+            }
+            if (maxAQI > 150) {
+                redNum++;
+            } else if (maxAQI > 50) {
+                yellowNum++;
+            } else {
+                greenNum++;
+            }
+        }
+        System.out.println("redGridNum: " + redNum + ", yellowGridNum" + yellowNum +  ", greenGridNun: " + greenNum);
+        System.out.println(aqiPolygons.getPolygons().size());
+        return responseEntity.success(aqiPolygons);
 
     }
 

@@ -104,13 +104,26 @@ public class PollutantService {
         return Math.round(num * Math.pow(10, places)) / Math.pow(10, places);
     }
 
+    private double getDistance(double lat, double lon, Sensor sensor) {
+        double a = sensor.getLatitude().doubleValue() - lat;
+        double b = sensor.getLongitude().doubleValue() - lon;
+        double c = Math.sqrt(a*a + b*b);
+        return c;
+
+    }
+
     private Sensor getNearestSensor(List<Sensor> sensors, double latitude, double longitude) {
         // this assumes Euclidean geometry and is only intended for a small set of sensors.
         Sensor result = sensors.get(0); // TODO this only finds a near sensor, not the nearest.
         double distance = 100;
         for (Sensor sensor : sensors) {
+<<<<<<< HEAD
             double tmpDis = Math.abs(sensor.getLatitude().doubleValue() - latitude) +
                     Math.abs(sensor.getLongitude().doubleValue() - longitude);
+=======
+            // double tmpDis = Math.abs(sensor.getSensorId().doubleValue() - latitude) + Math.abs(sensor.getLongitude().doubleValue() - longitude);
+            double tmpDis = getDistance(latitude, longitude, sensor);
+>>>>>>> 1dd9ae99cc237a341830632b0a418972de8bf247
             if (tmpDis < distance) {
                 result = sensor;
                 distance = tmpDis;

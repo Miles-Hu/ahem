@@ -40,6 +40,7 @@ public class ShortestPathFinder {
         while (current != startPoint) {
             path.add(current);
             current = parentMap.get(current);
+            System.out.println(distMap.get(current) - distMap.getOrDefault(parentMap.get(current), 0d));
         }
         path.add(startPoint);
         Collections.reverse(path);
