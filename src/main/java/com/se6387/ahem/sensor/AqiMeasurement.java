@@ -1,6 +1,6 @@
 package com.se6387.ahem.sensor;
 
-import com.se6387.ahem.service.PollutantEnum;
+import com.se6387.ahem.model.PollutantEnum;
 import java.time.Instant;
 
 /*

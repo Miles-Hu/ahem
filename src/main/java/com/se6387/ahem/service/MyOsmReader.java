@@ -1,6 +1,8 @@
 package com.se6387.ahem.service;
 
 import com.se6387.ahem.model.CapturedPollutant;
+import com.se6387.ahem.model.Edge;
+import com.se6387.ahem.model.PollutantEnum;
 import com.se6387.ahem.repository.CapturedPollutantRepository;
 import com.se6387.ahem.repository.PollutantRepository;
 import com.se6387.ahem.repository.SensorRepository;

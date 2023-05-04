@@ -2,6 +2,7 @@ package com.se6387.ahem.service;
 
 import com.se6387.ahem.model.CapturedPollutant;
 import com.se6387.ahem.model.Pollutant;
+import com.se6387.ahem.model.PollutantEnum;
 import com.se6387.ahem.model.Sensor;
 import com.se6387.ahem.repository.PollutantRepository;
 import com.se6387.ahem.repository.SensorRepository;
@@ -12,7 +13,6 @@ import com.se6387.ahem.sensor.AqiPolygon;
 import com.se6387.ahem.sensor.AqiPolygons;
 import com.se6387.ahem.utils.DatabaseCacheUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -117,13 +117,8 @@ public class PollutantService {
         Sensor result = sensors.get(0); // TODO this only finds a near sensor, not the nearest.
         double distance = 100;
         for (Sensor sensor : sensors) {
-<<<<<<< HEAD
-            double tmpDis = Math.abs(sensor.getLatitude().doubleValue() - latitude) +
-                    Math.abs(sensor.getLongitude().doubleValue() - longitude);
-=======
             // double tmpDis = Math.abs(sensor.getSensorId().doubleValue() - latitude) + Math.abs(sensor.getLongitude().doubleValue() - longitude);
             double tmpDis = getDistance(latitude, longitude, sensor);
->>>>>>> 1dd9ae99cc237a341830632b0a418972de8bf247
             if (tmpDis < distance) {
                 result = sensor;
                 distance = tmpDis;

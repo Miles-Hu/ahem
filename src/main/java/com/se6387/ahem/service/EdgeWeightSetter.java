@@ -1,5 +1,7 @@
 package com.se6387.ahem.service;
 
+import com.se6387.ahem.model.Edge;
+import com.se6387.ahem.model.PollutantEnum;
 import com.se6387.ahem.sensor.AqiMeasurement;
 import com.se6387.ahem.sensor.AqiPoint;
 import org.openstreetmap.osmosis.core.domain.v0_6.Node;
@@ -89,9 +91,9 @@ public class EdgeWeightSetter {
                 }
 
                 //computing edge weight function
-                double AQI_weight = (fromMaxAQI + toMaxAQI)/2;
+                double AQI_weight = Math.max(fromMaxAQI, toMaxAQI);
                 if (AQI_weight > 150) {
-                    AQI_weight = AQI_weight * 1000;
+                    AQI_weight = AQI_weight * 10000;
                 }
 
                 //set edge distance in feet

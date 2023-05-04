@@ -1,4 +1,4 @@
-package com.se6387.ahem.service;
+package com.se6387.ahem.model;
 
 
 public enum PollutantEnum {

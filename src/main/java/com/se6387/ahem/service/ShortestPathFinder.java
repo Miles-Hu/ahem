@@ -1,5 +1,7 @@
 package com.se6387.ahem.service;
 
+import com.se6387.ahem.model.Edge;
+
 import java.util.*;
 
 public class ShortestPathFinder {
