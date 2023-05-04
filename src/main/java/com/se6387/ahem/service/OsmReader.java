@@ -7,7 +7,6 @@ import com.se6387.ahem.repository.CapturedPollutantRepository;
 import com.se6387.ahem.repository.PollutantRepository;
 import com.se6387.ahem.repository.SensorRepository;
 import com.se6387.ahem.utils.DatabaseCacheUtil;
-import com.se6387.ahem.view.Coordinate;
 import crosby.binary.osmosis.OsmosisReader;
 import org.openstreetmap.osmosis.core.container.v0_6.EntityContainer;
 import org.openstreetmap.osmosis.core.container.v0_6.NodeContainer;
@@ -19,6 +18,7 @@ import org.openstreetmap.osmosis.core.domain.v0_6.Way;
 import org.openstreetmap.osmosis.core.domain.v0_6.WayNode;
 import org.openstreetmap.osmosis.core.task.v0_6.Sink;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -29,7 +29,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
-public class MyOsmReader implements Sink {
+public class OsmReader implements Sink {
 
     @Autowired
     private EdgeWeightSetter edgeWeightSetter;
@@ -102,7 +102,7 @@ public class MyOsmReader implements Sink {
     public void init() throws FileNotFoundException {
         InputStream inputStream = new FileInputStream("src/UTD_small.osm.pbf");
         OsmosisReader reader = new OsmosisReader(inputStream);
-        reader.setSink(new MyOsmReader());
+        reader.setSink(new OsmReader());
         reader.run();
 
         nodes = nodes.stream().filter(node -> graph.containsKey(node.getId())).collect(Collectors.toList());
@@ -125,8 +125,15 @@ public class MyOsmReader implements Sink {
         DatabaseCacheUtil.SENSORS_TABLE.addAll(sensorRepository.findAll());
     }
 
+
+    /**
+     * refresh the graph every hour
+     */
+    @Scheduled(cron ="0 0 */1 * * ?")
     private void refreshGraph() {
+        System.out.println("refreshGraph");
         graph = edgeWeightSetter.computeEdgeWeight(graph, id2NodeMap, new ArrayList<>());
+        cachedGraph = new HashMap<>();
         //cacheGraph();
     }
 
@@ -147,7 +154,7 @@ public class MyOsmReader implements Sink {
         }
     }
 
-    private Map<Long, List<Edge>> getGraph(List<Integer> sensitivePollutants) {
+    public Map<Long, List<Edge>> getGraph(List<Integer> sensitivePollutants) {
         if (sensitivePollutants == null || sensitivePollutants.isEmpty()) {
             return graph;
         }
@@ -163,42 +170,7 @@ public class MyOsmReader implements Sink {
         return newGraph;
     }
  
-    public List<Coordinate> route(Coordinate startPoint,
-                                  Coordinate endPoint,
-                                  List<Integer> sensitivePollutants){
-        // double[] sP = {-96.7533417, 32.9950066}, eP = {-96.7504163, 32.9862204};
-        double[] sP = {startPoint.getLongitude(), startPoint.getLatitude()}, eP = {endPoint.getLongitude(), endPoint.getLatitude()};
-        Map<Long, List<Edge>> newGraph = getGraph(sensitivePollutants);
-        double loDis1 = 10000, laDis1 = 10000;
-        double loDis2 = 10000, laDis2 = 10000;
-        Node sNode = null, eNode = null;
-        for (Node node : id2NodeMap.values()) {
-            if (Math.abs(node.getLongitude() - sP[0]) + Math.abs(node.getLatitude() - sP[1]) < (loDis1 + laDis1)) {
-                loDis1 = Math.abs(node.getLongitude() - sP[0]);
-                laDis1 = Math.abs(node.getLatitude() - sP[1]);
-                sNode = node;
-            }
-            if (Math.abs(node.getLongitude() - eP[0]) + Math.abs(node.getLatitude() - eP[1]) < (loDis2 + laDis2)) {
-                loDis2 = Math.abs(node.getLongitude() - eP[0]);
-                laDis2 = Math.abs(node.getLatitude() - eP[1]);
-                eNode = node;
-            }
-        }
-        System.out.println(sNode.getLongitude() + ", " + sNode.getLatitude());
-        System.out.println(eNode.getLongitude() + ", " + eNode.getLatitude());
-        System.out.println();
-        List<Long> path = ShortestPathFinder.findShortestPath(newGraph, sNode.getId(), eNode.getId());
-        StringBuilder sb = new StringBuilder();
-        List<Coordinate> result = new ArrayList<>();
-        for (Long node : path) {
-            double longitude = id2NodeMap.get(node).getLongitude();
-            double latitude = id2NodeMap.get(node).getLatitude();
-            sb.append(longitude + ", " + latitude).append("\n");
-            result.add(new Coordinate(longitude, latitude));
-        }
-        System.out.println(sb);
-        return result;
-    }
+
 
     /**
      * compute edge weight based on distance and pollutant level

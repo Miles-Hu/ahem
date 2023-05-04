@@ -7,14 +7,13 @@ import com.se6387.ahem.sensor.AqiPoint;
 import com.se6387.ahem.sensor.AqiPolygon;
 import com.se6387.ahem.sensor.AqiPolygons;
 import com.se6387.ahem.service.DbTestTools;
-import com.se6387.ahem.service.MapService;
+import com.se6387.ahem.service.RouteService;
 import com.se6387.ahem.service.PollutantService;
 import com.se6387.ahem.view.Coordinate;
 import com.se6387.ahem.view.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -30,7 +29,7 @@ import java.util.List;
 public class MainController {
 
     @Autowired
-    private MapService mapService;
+    private RouteService mapService;
 
     @Autowired
     private CapturedPollutantRepository capturedPollutantRepository;
