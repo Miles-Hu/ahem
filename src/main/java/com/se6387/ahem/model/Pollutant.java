@@ -118,7 +118,7 @@ public class Pollutant {
     Ih: the AQI value corresponding to BPh
     Il: the AQI value corresponding to BPl
     */
-    static int calc_aqi(double Cp, int Ih, int Il, double BPh, double BPl) {
+    private int calc_aqi(double Cp, int Ih, int Il, double BPh, double BPl) {
         int a =(Ih - Il);
         double b =(BPh - BPl);
         double c =(Cp - BPl);

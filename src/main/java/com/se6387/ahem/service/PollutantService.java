@@ -100,7 +100,7 @@ public class PollutantService {
         return new AqiPolygons(polygons);
     }
 
-    double roundDouble(double num, int places) {
+    private double roundDouble(double num, int places) {
         return Math.round(num * Math.pow(10, places)) / Math.pow(10, places);
     }
 
@@ -114,7 +114,7 @@ public class PollutantService {
 
     private Sensor getNearestSensor(List<Sensor> sensors, double latitude, double longitude) {
         // this assumes Euclidean geometry and is only intended for a small set of sensors.
-        Sensor result = sensors.get(0); // TODO this only finds a near sensor, not the nearest.
+        Sensor result = sensors.get(0);
         double distance = 100;
         for (Sensor sensor : sensors) {
             // double tmpDis = Math.abs(sensor.getSensorId().doubleValue() - latitude) + Math.abs(sensor.getLongitude().doubleValue() - longitude);

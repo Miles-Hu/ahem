@@ -25,32 +25,5 @@ public class AqiPolygons {
     public List<AqiPolygon> getPolygons() {
         return this.polygons;
     }
-/*
-    public static AqiPolygons get(int nLat, int sLat, int wLon, int eLon, int decimalPlaces,
-                                  CapturedPollutantRepository capturedPollutantRepository,
-                                  SensorRepository sensorRepository) {
-        AqiPolygons result = null;
 
-        List<CapturedPollutant> caputuredPollutants = capturedPollutantRepository.findAll
-        result += "pollutantExample: " + pollutantRepository +"\n";
-        List<Pollutant> pollutants = pollutantRepository.findAll();
-        result += "pollutants: ";
-        for (Pollutant p : pollutants) result += " [ " + p + " ]";
-        result += "\n";
-
-        return result;
-    }
-
-    private List<Integer> getSensorIds(int nLat, int sLat, int wLon, int eLon, int decimalPlaces,
-                                       SensorRepository sensorRepository) {
-        Session session = HibernateUtil();
-        CriteriaBuilder cb = session.getCriteriaBuilder();
-        CriteriaQuery<Item> cr = cb.createQuery(Item.class);
-        Root<Item> root = cr.from(Item.class);
-        cr.select(root);
-
-        Query<Item> query = session.createQuery(cr);
-        List<Item> results = query.getResultList();
-    }
- */
 }
