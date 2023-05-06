@@ -62,25 +62,6 @@ public class MainController {
         return responseEntity.success(byDatetimeBetween);
     }
 
-    // Jamie Test TODO remove!
-    // http://localhost:8082/v1/JamieTest?nLat=32.99&sLat=32.95&wLon=-96.8&eLon=-96.7
-    /**/
-    @GetMapping("/v1/JamieTest")
-    public ResponseEntity<List<Integer>> getSensorIds(@RequestParam double nLat, @RequestParam double sLat,
-                                                      @RequestParam double wLon, @RequestParam double eLon) {
-        ResponseEntity<List<Integer>> responseEntity = new ResponseEntity<>();
-        List<Integer> result = (List<Integer>) pollutantService.getSensorIds(nLat, sLat, wLon, eLon);
-        return responseEntity.success(result);
-    }
-
-    // http://localhost:8082/v1/db_tools/wip
-    @GetMapping("v1/db_tools/wip")
-    public ResponseEntity<String> wip() {
-        ResponseEntity<String> responseEntity = new ResponseEntity<>();
-        dbTestTools.wip();
-        return responseEntity.success("wip done");
-    }
-
     @GetMapping("v1/db_tools/reset_data") // jtsmith
     public ResponseEntity<String> resetData() {
         ResponseEntity<String> responseEntity = new ResponseEntity<>();

@@ -139,16 +139,4 @@ Attempts to generate realistic data for every sensor
             timestamp = timestamp.plusSeconds(interval);
         }
     }
-
-    public void wip() {
-        // for testing purposes
-        emptyDatabaseMeasurements();
-        emptySensorTable();
-        populateSensorTable();
-        Instant timestamp = Instant.now();
-        Instant startTime = timestamp.minusSeconds(60L * 60L); // 1 hour before
-        Instant endTime = timestamp.plusSeconds(60L * 60L) ; // 1 hour after
-        populateTestDataMeasurements(startTime, endTime, 300); // 5 min interval
-    }
-
 }
